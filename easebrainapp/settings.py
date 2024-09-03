@@ -38,7 +38,19 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'easebrain',
 ]
+
+# custom user model
+# referring to the model from other parts of code follow below
+# from users import User
+# or
+# from customuser.settings import AUTH_USER_MODEL
+# or
+# use the get_user_model() method from django.contrib.auth
+
+AUTH_USER_MODEL = 'easebrain.User'
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
