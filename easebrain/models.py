@@ -25,11 +25,11 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_user(self, email, password, is_staff, is_superuser, **extrafields):
+    def create_user(self, email, password, **extrafields):
         """ user creation function """
         return self._create_user(email, password, False, False, **extrafields)
 
-    def create_superuser(self, email, password, is_staff, is_superuser, **extrafields):
+    def create_superuser(self, email, password, **extrafields):
         """ superuser creation functon """
         return self._create_user(email, password, True, True, **extrafields)
 
@@ -59,5 +59,6 @@ class User(AbstractBaseUser, PermissionsMixin):
         """saving"""
         if self.user_id is None:
             self.user_id = str(uuid4()).split('-')[4]
+        self.updated_at = timezone.localtime(timezone.now())
 
         super(User, self).save(*args, **kwargs)
