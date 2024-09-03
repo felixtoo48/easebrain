@@ -39,9 +39,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     user_id = models.CharField(null=True, blank=True, max_length=200)
     email = models.EmailField(max_length=200, unique=True)
     name = models.CharField(null=True, blank=True, max_length=200)
-    is_staff = models.BooleanField(null=True, blank=True, default=False)
-    is_active = models.BooleanField(null=True, blank=True, default=False)
-    is_superuser = models.BooleanField(null=True, blank=True, default=False)
+    is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(null=True, blank=True)
 
