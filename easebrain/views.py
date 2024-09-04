@@ -12,7 +12,7 @@ def index(request):
 
 
 class UserView(DetailView):
-    template_name = 'users/profile.html'
+    template_name = 'easebrain/profile.html'
 
     def get_object(self):
         return self.request.user
@@ -32,4 +32,9 @@ def signup(request):
             return redirect('users:profile')
     else:
         form = SignUpForm()
-    return render(request, 'users/signup.html', {'form': form})
+    return render(request, 'easebrain/signup.html', {'form': form})
+
+
+def login(request):
+    context = {}
+    return render(request, 'easebrain/login.html', context)
