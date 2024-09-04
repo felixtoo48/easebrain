@@ -1,3 +1,7 @@
 from django.shortcuts import render
+import os
 
-# Create your views here.
+
+def index(request):
+    context = {}
+    return render(request, 'easebrain/index.html', context)
