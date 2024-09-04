@@ -19,10 +19,10 @@ from django.urls import path, include
 from easebrain import views as easebrain_views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+        path('admin/', admin.site.urls),
 
 
-    # easebrain URLs
-    path('', easebrain_views.index, name='index'),
-    path('easebrain/', include('easebrain.urls')),
+        # easebrain URLs
+        path('', easebrain_views.index, name='index'),
+        path('easebrain/', include('easebrain.urls')),
 ]
