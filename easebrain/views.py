@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django.views.generic.detail import DetailView
 import os
+from django.contrib.auth.decorators import login_required
+from .models import UserProfile
 
 from .forms import SignUpForm
 
@@ -35,3 +37,11 @@ def signup(request):
     return render(request, 'easebrain/signup.html', {'form': form})
 
 
+@login_required
+def profile(request):
+    user_profile = UserProfile.objects.get(user=request.user)
+    context = {
+        'user': request.user,
+        'profile': user_profile
+    }
+    return render(request, 'easebrain/profile.html', context)
