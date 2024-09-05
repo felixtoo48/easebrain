@@ -1,5 +1,13 @@
-<h1>My profile</h1>
-<p>
-  {{ object }}
-</p>
+<!-- In profile.html -->
+<h1>User Profile</h1>
+{% if profile.logo %}
+    <img src="{{ profile.logo.url }}" alt="User Logo">
+{% endif %}
+<p>ID: {{ user.user_id }}</p>
+<p>Email: {{ user.email }}</p>
+<p>Name: {{ user.name }}</p>
+<p>Title: {{ profile.title }}</p>
+<p>Phone Number: {{ profile.phoneNumber }}</p>
+<p>Address: {{ profile.addressLine1 }}</p>
+<p>Postal Code: {{ profile.postalCode }}</p>
 <a href="{% url 'easebrain:logout' %}">Logout</a>
