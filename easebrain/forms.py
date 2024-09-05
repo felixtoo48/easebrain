@@ -29,3 +29,16 @@ class UserLoginForm(forms.ModelForm):
         model=User
         fields=['username','password']
 """
+
+class UserProfile(forms.ModelForm):
+    """ users profile input form """
+    name = models.CharField(null=True, blank=True, max_length=200)
+    phoneNumber = models.CharField(null=True, blank=True, max_length=15)
+    userLogo = models.ImageField(null=True, blank=True, upload_to='logos', default='')
+    title = models.CharField(choices=CATEGORY, blank=True, max_length=100)
+    addressLine1 = models.CharField(null=True, blank=True, max_length=100)
+    postalCode = models.CharField(null=True, blank=True, max_length=100)
+
+    class Meta:
+        model=UserProfile
+        fields=['name', 'phoneNumber', 'userLogo', 'title', 'addressLine1', 'postalCode']
