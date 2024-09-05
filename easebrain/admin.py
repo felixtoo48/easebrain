@@ -32,8 +32,23 @@ class UserAdmin(BaseUserAdmin):
     filter_horizontal = ('groups', 'user_permissions',)
 
 
+class UserProfileAdmin(admin.ModelAdmin):
+    list_display = ('get_email', 'get_name', 'phoneNumber', 'userLogo', 'addressLine1', 'postalCode')
+
+    def get_email(self, obj):
+        return obj.user.email  # Access the email from the related User model
+
+    def get_name(self, obj):
+        return obj.user.name  # Access the name from the related User model
+
+    get_email.short_description = 'Email'
+    get_name.short_description = 'Name'
+
+admin.site.register(UserProfile, UserProfileAdmin)
 admin.site.register(User, UserAdmin)
 
+"""
 @admin.register(UserProfile)
 class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'title', 'phoneNumber', 'userLogo', 'addressLine1', 'postalCode')
+    list_display = ('email', 'name', 'title', 'phoneNumber', 'userLogo', 'addressLine1', 'postalCode')
+"""
