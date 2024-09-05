@@ -29,6 +29,10 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 
+CRISPY_ALLOWED_TEMPLATE_PACKS = ('bootstrap5')
+CRISPY_TEMPLATE_PACK = ('bootstrap5')
+
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -39,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'easebrain',
+    'crispy_forms',
 ]
 
 # custom user model
@@ -141,6 +146,11 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 # Dynamic files
 MEDIA_URL = 'uploads/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
+
+
+LOGIN_REDIRECT_URL = '/easebrain/profile/'
+LOGIN_URL = '/easebrain/login/'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
