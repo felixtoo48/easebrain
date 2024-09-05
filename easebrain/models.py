@@ -79,5 +79,17 @@ class UserProfile(models.Model):
     addressLine1 = models.CharField(null=True, blank=True, max_length=100)
     postalCode = models.CharField(null=True, blank=True, max_length=100)
 
+    # UTILITY FIELDS
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(blank=True, null=True)
+
     def __str__(self):
         return self.user.email
+
+    def save(self, *args, **kwargs):
+        """saving"""
+        if self.created_at is None:
+            self.created_at = timezone.localtime(timezone.now())
+        self.updated_at = timezone.localtime(timezone.now())
+
+        super(UserProfile, self).save(*args, **kwargs)
