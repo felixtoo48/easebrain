@@ -80,7 +80,7 @@ class UserProfile(models.Model):
     postalCode = models.CharField(null=True, blank=True, max_length=100)
 
     # UTILITY FIELDS
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(blank=True, null=True)
     updated_at = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
