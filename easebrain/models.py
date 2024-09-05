@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import BaseUserManager, PermissionsMixin, AbstractBaseUser
 from django.utils import timezone
 from uuid import uuid4
+from django.conf import settings
 
 
 class UserManager(BaseUserManager):
@@ -62,3 +63,21 @@ class User(AbstractBaseUser, PermissionsMixin):
         self.updated_at = timezone.localtime(timezone.now())
 
         super(User, self).save(*args, **kwargs)
+
+
+class UserProfile(models.Model):
+    """ profile management model """
+    CATEGORY = [
+            ('Mr', 'Mr'),
+            ('Mrs', 'Mrs'),
+            ('Dr', 'Dr'),
+            ]
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    phoneNumber = models.CharField(null=True, blank=True, max_length=15)
+    userLogo = models.ImageField(null=True, blank=True, upload_to='logos', default='')
+    title = models.CharField(choices=CATEGORY, blank=True, max_length=100)
+    addressLine1 = models.CharField(null=True, blank=True, max_length=100)
+    postalCode = models.CharField(null=True, blank=True, max_length=100)
+
+    def __str__(self):
+        return self.user.email
