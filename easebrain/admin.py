@@ -33,3 +33,7 @@ class UserAdmin(BaseUserAdmin):
 
 
 admin.site.register(User, UserAdmin)
+
+@admin.register(UserProfile)
+class UserProfileAdmin(admin.ModelAdmin):
+    list_display = ('user', 'title', 'phoneNumber', 'userLogo', 'addressLine1', 'postalCode')
