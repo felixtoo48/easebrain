@@ -73,6 +73,7 @@ class UserProfile(models.Model):
             ('Dr', 'Dr'),
             ]
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    name = models.CharField(null=True, blank=True, max_length=200)
     phoneNumber = models.CharField(null=True, blank=True, max_length=15)
     userLogo = models.ImageField(null=True, blank=True, upload_to='logos', default='')
     title = models.CharField(choices=CATEGORY, blank=True, max_length=100)
@@ -91,5 +92,10 @@ class UserProfile(models.Model):
         if self.created_at is None:
             self.created_at = timezone.localtime(timezone.now())
         self.updated_at = timezone.localtime(timezone.now())
+
+        # Sync the name in User model with the name in UserProfile
+        if self.name and self.user.name != self.name:
+            # Avoid recursion by updating only if there's a change
+            User.objects.filter(pk=self.user.pk).update(name=self.name)
 
         super(UserProfile, self).save(*args, **kwargs)
