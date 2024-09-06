@@ -1,21 +1,27 @@
 <!-- In profile.html -->
-<h1>User Profile</h1>
+<h1>Profile Page</h1>
 
 <a href="{% url 'easebrain:update_profile' %}">Edit Profile</a>
 
-{% if profile.logo %}
-    <img src="{{ profile.logo.url }}" alt="User Logo">
-{% endif %}
 <p>ID: {{ user.user_id }}</p>
-<p>Email: {{ user.email }}</p>
-<p>Title: {{ profile.title }}</p>
-<p>Name: {{ user.name }}</p>
-<p>Gender: {{ profile.gender }}</p>
-<p>Phone Number: {{ profile.phoneNumber }}</p>
-<p>Address: {{ profile.addressLine1 }}</p>
-<p>Date of Birth: {{ profile.birthDate }}</p>
-<p>Next of Kin: {{ profile.next_of_kin }}</p>
-<p>Marital Status: {{ profile.maritalStatus }}</p>
-<p>Date of Enrollment: {{ profile.date_of_enrollment }}</p>
-<p>Summary: {{ profile.summary }}</p>
+<p><strong>User ID:</strong> {{ user.user_id }}</p>
+<p><strong>Title:</strong> {{ profile.title }}</p>
+<p><strong>Full Name:</strong> {{ user.name }}</p>
+<p><strong>Email:</strong> {{ user.email }}</p>
+<p><strong>Gender:</strong> {{ profile.gender }}</p>
+<p><strong>Phone Number:</strong> {{ profile.phoneNumber }}</p>
+<p><strong>Address:</strong> {{ profile.addressLine1 }}</p>
+<p><strong>Date of Birth:</strong> {{ profile.birthDate }}</p>
+<p><strong>Next of Kin:</strong> {{ profile.next_of_kin }}</p>
+<p><strong>Marital Status:</strong> {{ profile.maritalStatus }}</p>
+<p><strong>Date of Enrollment:</strong> {{ profile.date_of_enrollment }}</p>
+<p><strong>Summary:</strong> {{ profile.summary }}</p>
+<img src="{{ profile.userLogo.url }}" alt="Profile picture">
+
+<br>
+<p>{{ profile }}</p>
+<p>{{ user }}</p>
+
+<br>
+
 <a href="{% url 'easebrain:logout' %}">Logout</a>
