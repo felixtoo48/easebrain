@@ -1,13 +1,21 @@
 <!-- In profile.html -->
 <h1>User Profile</h1>
+
+<a href="{% url 'easebrain:update_profile' %}">Edit Profile</a>
+
 {% if profile.logo %}
     <img src="{{ profile.logo.url }}" alt="User Logo">
 {% endif %}
 <p>ID: {{ user.user_id }}</p>
 <p>Email: {{ user.email }}</p>
-<p>Name: {{ user.name }}</p>
 <p>Title: {{ profile.title }}</p>
+<p>Name: {{ user.name }}</p>
+<p>Gender: {{ profile.gender }}</p>
 <p>Phone Number: {{ profile.phoneNumber }}</p>
 <p>Address: {{ profile.addressLine1 }}</p>
-<p>Postal Code: {{ profile.postalCode }}</p>
+<p>Date of Birth: {{ profile.birthDate }}</p>
+<p>Next of Kin: {{ profile.next_of_kin }}</p>
+<p>Marital Status: {{ profile.maritalStatus }}</p>
+<p>Date of Enrollment: {{ profile.date_of_enrollment }}</p>
+<p>Summary: {{ profile.summary }}</p>
 <a href="{% url 'easebrain:logout' %}">Logout</a>
