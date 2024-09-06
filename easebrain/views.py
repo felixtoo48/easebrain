@@ -40,7 +40,7 @@ def signup(request):
 
 @login_required
 def profile(request):
-    user_profile = UserProfile.objects.get(user=request.user)
+    user_profile, created = UserProfile.objects.get_or_create(user=request.user)
     context = {
         'user': request.user,
         'profile': user_profile
