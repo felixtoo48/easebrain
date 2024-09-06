@@ -72,13 +72,29 @@ class UserProfile(models.Model):
             ('Mrs', 'Mrs'),
             ('Dr', 'Dr'),
             ]
+    GENDER = [
+            ('Male', 'Male'),
+            ('Female', 'Female'),
+            ]
+    STATUS = [
+            ('Single', 'Single'),
+            ('Married', 'Married'),
+            ('Divorced', 'Divorced'),
+            ('Widowed', 'Widowed'),
+            ('Separated', 'Separated'),
+            ]
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    title = models.CharField(choices=CATEGORY, blank=True, max_length=100)
     name = models.CharField(null=True, blank=True, max_length=200)
+    gender = models.CharField(choices=GENDER, blank=True, max_length=50)
     phoneNumber = models.CharField(null=True, blank=True, max_length=15)
     userLogo = models.ImageField(null=True, blank=True, upload_to='logos', default='')
-    title = models.CharField(choices=CATEGORY, blank=True, max_length=100)
     addressLine1 = models.CharField(null=True, blank=True, max_length=100)
-    postalCode = models.CharField(null=True, blank=True, max_length=100)
+    birthDate = models.DateTimeField(null=True, blank=True)
+    next_of_kin = models.CharField(null=True, blank=True, max_length=200)
+    maritalStatus = models.CharField(choices=STATUS, blank=True, max_length=100)
+    date_of_enrollment = models.DateTimeField(null=True, blank=True)
+    summary = models.TextField(null=True, blank=True)
 
     # UTILITY FIELDS
     created_at = models.DateTimeField(blank=True, null=True)
@@ -90,7 +106,9 @@ class UserProfile(models.Model):
     def save(self, *args, **kwargs):
         """saving"""
         if self.created_at is None:
-            self.created_at = timezone.localtime(timezone.now())
+            current_time = timezone.localtime(timezone.now())
+            self.created_at = current_time
+            self.date_of_enrollment = current_time
         self.updated_at = timezone.localtime(timezone.now())
 
         # Sync the name in User model with the name in UserProfile
