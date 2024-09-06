@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from .models import UserProfile
 
 from .forms import SignUpForm
+from .forms import UserProfileForm
 
 
 def index(request):
@@ -45,3 +46,19 @@ def profile(request):
         'profile': user_profile
     }
     return render(request, 'easebrain/profile.html', context)
+
+
+@login_required
+def update_profile(request):
+    # Get the user's profile
+    profile, created = UserProfile.objects.get_or_create(user=request.user)
+
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect('easebrain:profile')  # Redirect to profile view after saving
+    else:
+        form = UserProfileForm(instance=profile)
+
+    return render(request, 'easebrain/update_profile.html', {'form': form})
