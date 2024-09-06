@@ -36,6 +36,7 @@ class UserProfileForm(forms.ModelForm):
             ('Widowed', 'Widowed'),
             ('Separated', 'Separated'),
             ]
+    """
     title = forms.ChoiceField(choices=CATEGORY, required=True, label='Title',)
     name = forms.CharField(required=True, label='Enter Full Name',)
     gender = forms.ChoiceField(choices=GENDER, required=True, label='Select your Gender',)
@@ -47,6 +48,7 @@ class UserProfileForm(forms.ModelForm):
     maritalStatus = forms.ChoiceField(choices=STATUS, required=True, label='Select your status',)
     date_of_enrollment = forms.DateTimeField(required=True, label='Date of Enrollment',)
     summary = forms.CharField(required=True, label='Add short summary',)
+    """
 
     class Meta:
         model = UserProfile
