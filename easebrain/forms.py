@@ -2,13 +2,14 @@ from django import forms
 from .models import *
 from django.db import models
 from django.contrib.auth.forms import UserCreationForm
-# from django.forms import widgets
+from django.forms import widgets
 
-"""
-#Form Layout from Crispy Forms
-from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Submit, Row, Column
-"""
+# from crispy_forms.helper import FormHelper
+# from crispy_forms.layout import Layout, Submit, Row, Column
+
+
+class DateInput(forms.DateInput):
+    input_type = 'date'
 
 
 class SignUpForm(UserCreationForm):
@@ -16,21 +17,8 @@ class SignUpForm(UserCreationForm):
         model = User
         fields = ('email',)
 
-"""
-class UserLoginForm(forms.ModelForm):
-    username = forms.CharField(
-                            widget=forms.TextInput(attrs={'id': 'floatingInput', 'class': 'form-control mb-3'}),
-                            required=True)
-    password = forms.CharField(
-                            widget=forms.PasswordInput(attrs={'id': 'floatingPassword', 'class': 'form-control mb-3'}),
-                            required=True)
 
-    class Meta:
-        model=User
-        fields=['username','password']
-"""
-
-class UserProfile(forms.ModelForm):
+class UserProfileForm(forms.ModelForm):
     """ users profile input form """
     CATEGORY = [
             ('Mr', 'Mr'),
@@ -48,18 +36,23 @@ class UserProfile(forms.ModelForm):
             ('Widowed', 'Widowed'),
             ('Separated', 'Separated'),
             ]
-    title = models.CharField(choices=CATEGORY, blank=True, max_length=100)
-    name = models.CharField(null=True, blank=True, max_length=200)
-    gender = models.CharField(choices=GENDER, blank=True, max_length=50)
-    phoneNumber = models.CharField(null=True, blank=True, max_length=15)
-    userLogo = models.ImageField(null=True, blank=True, upload_to='logos', default='')
-    addressLine1 = models.CharField(null=True, blank=True, max_length=100)
-    birthDate = models.DateTimeField(null=True, blank=True)
-    next_of_kin = models.CharField(null=True, blank=True, max_length=200)
-    maritalStatus = models.CharField(choices=STATUS, blank=True, max_length=100)
-    date_of_enrollment = models.DateTimeField(null=True, blank=True)
-    summary = models.TextField(null=True, blank=True)
+    title = forms.ChoiceField(choices=CATEGORY, required=True, label='Title',)
+    name = forms.CharField(required=True, label='Enter Full Name',)
+    gender = forms.ChoiceField(choices=GENDER, required=True, label='Select your Gender',)
+    phoneNumber = forms.CharField(required=True, label='Enter your Phone Number',)
+    userLogo = forms.ImageField(required=True, label='Add profile picture',)
+    addressLine1 = forms.CharField(required=True, label='Enter your address',)
+    birthDate = forms.DateField(required=True, label='Date of Birth', widget=DateInput(attrs={'class': 'form-control'}),)
+    next_of_kin = forms.CharField(required=True, label='Next of Kin',)
+    maritalStatus = forms.ChoiceField(choices=STATUS, required=True, label='Select your status',)
+    date_of_enrollment = forms.DateTimeField(required=True, label='Date of Enrollment',)
+    summary = forms.CharField(required=True, label='Add short summary',)
 
     class Meta:
-        model=UserProfile
-        fields=['title', 'name', 'gender', 'phoneNumber', 'userLogo', 'addressLine1', 'birthDate', 'next_of_kin', 'maritalStatus', 'date_of_enrollment', 'summary']
+        model = UserProfile
+        fields = ['title', 'name', 'gender', 'phoneNumber', 'userLogo', 'addressLine1', 'birthDate', 'next_of_kin', 'maritalStatus', 'date_of_enrollment', 'summary']
+
+        widgets = {
+                'birthDate': forms.DateInput(attrs={'type': 'date'}),
+                'summary': forms.Textarea(attrs={'rows': 4, 'cols': 15}),
+            }
