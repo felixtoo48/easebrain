@@ -33,7 +33,7 @@ class UserAdmin(BaseUserAdmin):
 
 
 class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ('get_email', 'get_name', 'phoneNumber', 'userLogo', 'addressLine1', 'created_at', 'updated_at')
+    list_display = ('get_email', 'get_name', 'title', 'gender', 'phoneNumber', 'userLogo', 'addressLine1', 'birthDate', 'next_of_kin', 'maritalStatus', 'date_of_enrollment', 'summary', 'created_at', 'updated_at')
 
     def get_email(self, obj):
         return obj.user.email  # Access the email from the related User model
