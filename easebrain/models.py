@@ -90,7 +90,7 @@ class UserProfile(models.Model):
     phoneNumber = models.CharField(null=True, blank=True, max_length=15)
     userLogo = models.ImageField(null=True, blank=True, upload_to='logos', default='')
     addressLine1 = models.CharField(null=True, blank=True, max_length=100)
-    birthDate = models.DateTimeField(null=True, blank=True)
+    birthDate = models.DateField(null=True, blank=True)
     next_of_kin = models.CharField(null=True, blank=True, max_length=200)
     maritalStatus = models.CharField(choices=STATUS, blank=True, max_length=100)
     date_of_enrollment = models.DateTimeField(null=True, blank=True)
