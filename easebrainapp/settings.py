@@ -42,8 +42,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "crispy_forms",
+    "rest_framework",
+
     'easebrain',
-    'crispy_forms',
+    "chat",
+    "core",
 ]
 
 # custom user model
@@ -91,17 +95,24 @@ WSGI_APPLICATION = 'easebrainapp.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'easebrain',
-        'USER': 'easebrainuser',
-        'PASSWORD': 'password1234',
-        'HOST': 'localhost',
-        'PORT': '',
+if DEBUG == False:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'easebrain',
+            'USER': 'easebrainuser',
+            'PASSWORD': 'password1234',
+            'HOST': 'localhost',
+            'PORT': '',
+        }
+    }
+else:
+    DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
