@@ -25,5 +25,6 @@ urlpatterns = [
         # easebrain URLs
         path('', easebrain_views.index, name='index'),
         path('easebrain/', include('easebrain.urls')),
+        path("chat/", include("chat.urls")),
         # default path if LOGIN_REDIRECT is not added in settings.py file -> path('accounts/', include('django.contrib.auth.urls')),
 ]

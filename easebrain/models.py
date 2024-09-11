@@ -64,6 +64,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 
         super(User, self).save(*args, **kwargs)
 
+    def __str__(self):
+        return self.email
+
 
 class UserProfile(models.Model):
     """ profile management model """
