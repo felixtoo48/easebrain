@@ -6,7 +6,7 @@ from .models import *
 
 class UserAdmin(BaseUserAdmin):
     fieldsets = (
-        (None, {'fields': ('email', 'password', 'name', 'updated_at')}),
+        (None, {'fields': ('email', 'password', 'name', 'modified')}),
         ('Permissions', {'fields': (
             'is_active',
             'is_staff',
@@ -25,7 +25,7 @@ class UserAdmin(BaseUserAdmin):
         ),
     )
 
-    list_display = ('email', 'name', 'user_id', 'is_staff', 'created_at', 'updated_at')
+    list_display = ('email', 'name', 'user_id', 'is_staff', 'created', 'modified')
     list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups')
     search_fields = ('email',)
     ordering = ('email',)
@@ -33,7 +33,7 @@ class UserAdmin(BaseUserAdmin):
 
 
 class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ('get_email', 'get_name', 'title', 'gender', 'phoneNumber', 'userLogo', 'addressLine1', 'birthDate', 'next_of_kin', 'maritalStatus', 'date_of_enrollment', 'summary', 'created_at', 'updated_at')
+    list_display = ('get_email', 'get_name', 'title', 'gender', 'phoneNumber', 'userLogo', 'addressLine1', 'birthDate', 'next_of_kin', 'maritalStatus', 'date_of_enrollment', 'summary', 'created', 'modified')
 
     def get_email(self, obj):
         return obj.user.email  # Access the email from the related User model

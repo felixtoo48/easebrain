@@ -4,6 +4,9 @@ from django.utils import timezone
 from uuid import uuid4
 from django.conf import settings
 
+from core.models import AbstractBaseModel
+from core.constants import UserRoleEnum, GenderEnum, StatusEnum, CategoryEnum
+
 
 class UserManager(BaseUserManager):
     """ users manager model """
@@ -35,7 +38,7 @@ class UserManager(BaseUserManager):
         return self._create_user(email, password, True, True, **extrafields)
 
 
-class User(AbstractBaseUser, PermissionsMixin):
+class User(AbstractBaseUser, AbstractBaseModel, PermissionsMixin):
     """ custom user class model """
     user_id = models.CharField(null=True, blank=True, max_length=200)
     email = models.EmailField(max_length=200, unique=True)
@@ -43,8 +46,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(null=True, blank=True)
+    role = models.CharField(max_length=20, choices=UserRoleEnum.choices(), default=UserRoleEnum.USER)
 
     USERNAME_FIELD = 'email'
     EMAIL_FIELD = 'email'
@@ -68,34 +70,18 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.email
 
 
-class UserProfile(models.Model):
+class UserProfile(AbstractBaseModel):
     """ profile management model """
-    CATEGORY = [
-            ('Mr', 'Mr'),
-            ('Mrs', 'Mrs'),
-            ('Dr', 'Dr'),
-            ]
-    GENDER = [
-            ('Male', 'Male'),
-            ('Female', 'Female'),
-            ]
-    STATUS = [
-            ('Single', 'Single'),
-            ('Married', 'Married'),
-            ('Divorced', 'Divorced'),
-            ('Widowed', 'Widowed'),
-            ('Separated', 'Separated'),
-            ]
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    title = models.CharField(choices=CATEGORY, blank=True, max_length=100)
+    title = models.CharField(choices=CategoryEnum.choices(), blank=True, max_length=100)
     name = models.CharField(null=True, blank=True, max_length=200)
-    gender = models.CharField(choices=GENDER, blank=True, max_length=50)
+    gender = models.CharField(choices=GenderEnum.choices(), blank=True, max_length=50)
     phoneNumber = models.CharField(null=True, blank=True, max_length=15)
     userLogo = models.ImageField(null=True, blank=True, upload_to='logos', default='')
     addressLine1 = models.CharField(null=True, blank=True, max_length=100)
     birthDate = models.DateField(null=True, blank=True)
     next_of_kin = models.CharField(null=True, blank=True, max_length=200)
-    maritalStatus = models.CharField(choices=STATUS, blank=True, max_length=100)
+    maritalStatus = models.CharField(choices=StatusEnum.choices(), null=True, blank=True, max_length=100)
     date_of_enrollment = models.DateTimeField(null=True, blank=True)
     summary = models.TextField(null=True, blank=True)
 

@@ -7,6 +7,7 @@ from core.models import AbstractBaseModel
 
 # Create your models here.
 class ChatRoom(AbstractBaseModel):
+    creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name='userchatrooms')
     name = models.CharField(max_length=255, unique=True)
     description = models.TextField(blank=True, null=True)
     participants = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='chatrooms', null=True)
