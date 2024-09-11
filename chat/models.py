@@ -9,7 +9,7 @@ from core.models import AbstractBaseModel
 class ChatRoom(AbstractBaseModel):
     name = models.CharField(max_length=255, unique=True)
     description = models.TextField(blank=True, null=True)
-    participants = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='chatrooms')
+    participants = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='chatrooms', null=True)
 
     def __str__(self):
         return self.name
