@@ -40,25 +40,37 @@ def signup(request):
 
 @login_required
 def profile(request):
-    user_profile, created = UserProfile.objects.get_or_create(user=request.user)
+    try:
+        user_profile = UserProfile.objects.get(user=request.user)
+    except UserProfile.DoesNotExist:
+        user_profile = None
+
+    print("User Profile:", user_profile)
+    print("Context:", {'user': request.user, 'profile': user_profile})
+    
     context = {
         'user': request.user,
         'profile': user_profile
     }
+    
     return render(request, 'easebrain/profile.html', context)
+
 
 
 @login_required
 def update_profile(request):
-    # Get the user's profile
     profile, created = UserProfile.objects.get_or_create(user=request.user)
 
     if request.method == 'POST':
         form = UserProfileForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
             form.save()
-            return redirect('easebrain:profile')  # Redirect to profile view after saving
+            print("Profile updated successfully:", form.cleaned_data)
+            return redirect('easebrain:profile')    # redirect to profile after update
+        else:
+            print("Form is not valid:", form.errors)
     else:
         form = UserProfileForm(instance=profile)
 
     return render(request, 'easebrain/update_profile.html', {'form': form})
+

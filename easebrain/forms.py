@@ -3,9 +3,12 @@ from .models import *
 from django.db import models
 from django.contrib.auth.forms import UserCreationForm
 from django.forms import widgets
+from django.contrib.auth import get_user_model
 
 # from crispy_forms.helper import FormHelper
 # from crispy_forms.layout import Layout, Submit, Row, Column
+
+User = get_user_model()
 
 
 class DateInput(forms.DateInput):
@@ -15,7 +18,13 @@ class DateInput(forms.DateInput):
 class SignUpForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ('email',)
+        fields = ('email', 'name')
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError('A user with this email already exists.')
+        return email
 
 
 class UserProfileForm(forms.ModelForm):
@@ -36,7 +45,8 @@ class UserProfileForm(forms.ModelForm):
             ('Widowed', 'Widowed'),
             ('Separated', 'Separated'),
             ]
-    """
+
+    # user = forms.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title = forms.ChoiceField(choices=CATEGORY, required=True, label='Title',)
     name = forms.CharField(required=True, label='Enter Full Name',)
     gender = forms.ChoiceField(choices=GENDER, required=True, label='Select your Gender',)
@@ -48,11 +58,10 @@ class UserProfileForm(forms.ModelForm):
     maritalStatus = forms.ChoiceField(choices=STATUS, required=True, label='Select your status',)
     date_of_enrollment = forms.DateTimeField(required=True, label='Date of Enrollment',)
     summary = forms.CharField(required=True, label='Add short summary',)
-    """
 
     class Meta:
         model = UserProfile
-        fields = ['title', 'name', 'gender', 'phoneNumber', 'userLogo', 'addressLine1', 'birthDate', 'next_of_kin', 'maritalStatus', 'date_of_enrollment', 'summary']
+        fields = ['user', 'title', 'name', 'gender', 'phoneNumber', 'userLogo', 'addressLine1', 'birthDate', 'next_of_kin', 'maritalStatus', 'date_of_enrollment', 'summary']
 
         widgets = {
                 'birthDate': forms.DateInput(attrs={'type': 'date'}),
