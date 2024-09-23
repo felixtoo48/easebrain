@@ -1,27 +1,30 @@
-<!-- In profile.html -->
+{% load static %} 
 <h1>Profile Page</h1>
 
 <a href="{% url 'easebrain:update_profile' %}">Edit Profile</a>
 
-<p>ID: {{ user.user_id }}</p>
-<p><strong>User ID:</strong> {{ user.user_id }}</p>
-<p><strong>Title:</strong> {{ profile.title }}</p>
+<!-- Debug output -->
+<p>Profile object: {{ profile }}</p>
+<p>User object: {{ user }}</p>
+
+<p><strong>ID:</strong> {{ user.user_id }}</p>
+<p><strong>Title:</strong> {{ profile.title|default:"N/A" }}</p>
 <p><strong>Full Name:</strong> {{ user.name }}</p>
 <p><strong>Email:</strong> {{ user.email }}</p>
-<p><strong>Gender:</strong> {{ profile.gender }}</p>
-<p><strong>Phone Number:</strong> {{ profile.phoneNumber }}</p>
-<p><strong>Address:</strong> {{ profile.addressLine1 }}</p>
-<p><strong>Date of Birth:</strong> {{ profile.birthDate }}</p>
-<p><strong>Next of Kin:</strong> {{ profile.next_of_kin }}</p>
-<p><strong>Marital Status:</strong> {{ profile.maritalStatus }}</p>
-<p><strong>Date of Enrollment:</strong> {{ profile.date_of_enrollment }}</p>
-<p><strong>Summary:</strong> {{ profile.summary }}</p>
-<img src="{{ profile.userLogo.url }}" alt="Profile picture">
+<p><strong>Gender:</strong> {{ profile.gender|default:"N/A" }}</p>
+<p><strong>Phone Number:</strong> {{ profile.phoneNumber|default:"N/A" }}</p>
+<p><strong>Address:</strong> {{ profile.addressLine1|default:"N/A" }}</p>
+<p><strong>Date of Birth:</strong> {{ profile.birthDate|default:"N/A" }}</p>
+<p><strong>Next of Kin:</strong> {{ profile.next_of_kin|default:"N/A" }}</p>
+<p><strong>Marital Status:</strong> {{ profile.maritalStatus|default:"N/A" }}</p>
+<p><strong>Date of Enrollment:</strong> {{ profile.date_of_enrollment|default:"N/A" }}</p>
+<p><strong>Summary:</strong> {{ profile.summary|default:"N/A" }}</p>
 
-<br>
-<p>{{ profile }}</p>
-<p>{{ user }}</p>
-
-<br>
+{% if profile.userLogo %}
+  <img src="{{ profile.userLogo.url }}" alt="Profile picture">
+{% else %}
+  <p>No profile picture available.</p>
+{% endif %}
 
 <a href="{% url 'easebrain:logout' %}">Logout</a>
+
