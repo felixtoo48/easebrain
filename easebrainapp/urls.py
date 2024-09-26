@@ -17,6 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from easebrain import views as easebrain_views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
         path('admin/', admin.site.urls),
@@ -26,4 +28,4 @@ urlpatterns = [
         path('', easebrain_views.index, name='index'),
         path('easebrain/', include('easebrain.urls')),
         # default path if LOGIN_REDIRECT is not added in settings.py file -> path('accounts/', include('django.contrib.auth.urls')),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) # To auto serve media files by default in development while DEBUG=True
