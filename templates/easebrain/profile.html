@@ -3,10 +3,6 @@
 
 <a href="{% url 'easebrain:update_profile' %}">Edit Profile</a>
 
-<!-- Debug output -->
-<p>Profile object: {{ profile }}</p>
-<p>User object: {{ user }}</p>
-
 <p><strong>ID:</strong> {{ user.user_id }}</p>
 <p><strong>Title:</strong> {{ profile.title|default:"N/A" }}</p>
 <p><strong>Full Name:</strong> {{ user.name }}</p>
