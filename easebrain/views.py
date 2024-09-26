@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
-from django.views.generic.detail import DetailView
+from django.views.generic import DetailView
 import os
 from django.contrib.auth.decorators import login_required
 from .models import UserProfile
+from .models import User
 
 from .forms import SignUpForm
 from .forms import UserProfileForm
@@ -15,10 +16,21 @@ def index(request):
 
 
 class UserView(DetailView):
+    model = User
     template_name = 'easebrain/profile.html'
 
     def get_object(self):
         return self.request.user
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Get the related UserProfile for the user
+        try:
+            user_profile = UserProfile.objects.get(user=self.request.user)
+        except UserProfile.DoesNotExist:
+            user_profile = None
+        context['profile'] = user_profile
+        return context
 
 
 def signup(request):
@@ -40,13 +52,8 @@ def signup(request):
 
 @login_required
 def profile(request):
-    try:
-        user_profile = UserProfile.objects.get(user=request.user)
-    except UserProfile.DoesNotExist:
-        user_profile = None
 
-    print("User Profile:", user_profile)
-    print("Context:", {'user': request.user, 'profile': user_profile})
+    user_profile = UserProfile.objects.get(user=request.user)
     
     context = {
         'user': request.user,
