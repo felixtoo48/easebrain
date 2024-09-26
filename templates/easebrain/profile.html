@@ -15,7 +15,7 @@
 <p><strong>Marital Status:</strong> {{ profile.maritalStatus|default:"N/A" }}</p>
 <p><strong>Date of Enrollment:</strong> {{ profile.date_of_enrollment|default:"N/A" }}</p>
 <p><strong>Summary:</strong> {{ profile.summary|default:"N/A" }}</p>
-
+<p><strong>User Logo:</strong>
 {% if profile.userLogo %}
   <img src="{{ profile.userLogo.url }}" alt="Profile picture">
 {% else %}
