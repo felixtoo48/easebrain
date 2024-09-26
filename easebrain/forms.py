@@ -18,7 +18,7 @@ class DateInput(forms.DateInput):
 class SignUpForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ('email')
+        fields = ('email',)
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
