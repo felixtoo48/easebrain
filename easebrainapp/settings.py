@@ -34,6 +34,7 @@ CRISPY_TEMPLATE_PACK = ('bootstrap5')
 
 
 # Application definition
+SITE_ID=2
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -44,7 +45,41 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'easebrain',
     'crispy_forms',
+
+    'django.contrib.sites',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'dj_rest_auth',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
 ]
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        "SCOPE":[
+            "profile",
+            "email",
+        ],
+        "AUTH_PARAMS": {
+            "access_type": "online",
+
+        },
+        'METHOD': 'oauth2',
+        'VERIFIED_EMAIL': False,
+    }
+}
 
 # custom user model
 # referring to the model from other parts of code follow below
@@ -65,6 +100,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'easebrainapp.urls'
@@ -94,11 +131,11 @@ WSGI_APPLICATION = 'easebrainapp.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'easebrain',
-        'USER': 'easebrainuser',
-        'PASSWORD': 'password1234',
+        'NAME': 'Easebrain',
+        'USER': 'postgres',
+        'PASSWORD': 'Qwerty_1234',
         'HOST': 'localhost',
-        'PORT': '',
+        'PORT': '5432',
     }
 }
 
@@ -150,6 +187,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
 
 LOGIN_REDIRECT_URL = '/easebrain/profile/'
 LOGIN_URL = '/easebrain/login/'
+
+
 
 
 # Default primary key field type

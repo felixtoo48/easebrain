@@ -22,6 +22,8 @@ from django.conf.urls.static import static
 
 urlpatterns = [
         path('admin/', admin.site.urls),
+        path('dj-rest-auth/', include('dj_rest_auth.urls')),
+        path("accounts/", include("allauth.urls")), # Allauth routes
 
 
         # easebrain URLs

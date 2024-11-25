@@ -40,6 +40,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     user_id = models.CharField(null=True, blank=True, max_length=200)
     email = models.EmailField(max_length=200, unique=True)
     name = models.CharField(null=True, blank=True, max_length=200)
+    username = models.CharField(max_length=150, unique=True, null=True, blank=True)  # Placeholder
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)
