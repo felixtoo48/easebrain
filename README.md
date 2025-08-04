@@ -1,5 +1,5 @@
 # String Search Server
-The Project is a standardized introductory task for Software Engineers at Algorithmic Sciences specifically as the second step of the interview process.
+The Project is a standardized introductory task for Software Engineers at Algorithmic Sciences specifically as the second step of the interview process. lll
 
 #### Functionalities of the project:
 * Checking execution times of searching one line strings from different files 
