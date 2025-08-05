@@ -75,7 +75,7 @@ This project is a standardized introductory task for Software Engineers at Algor
 
 ### How to runthe project
 
-  1. Extract .zip file and navigate
+  1. Extract .zip file and navigate:
   ```
   cd String_search_server
   ```
@@ -87,32 +87,36 @@ This project is a standardized introductory task for Software Engineers at Algor
     source venv/bin/activate 
   ```
 
-  3. Install dependancies
-  Command:
+  3. Install dependancies:
   ```
   pip install -r requirements.txt
   ```
-  4. Configure MySQL Database `sudo mysql -u root -p`
+
+  4. Configure MySQL Database `sudo mysql -u root -p`:
   ```
   CREATE DATABASE crm_db;
   CREATE USER 'crm_dbuser'@'localhost' IDENTIFIED BY 'Password@Here1234';
   GRANT ALL PRIVILEGES ON crm_db.* TO 'crm_dbuser'@'localhost';
   FLUSH PRIVILEGES;
   ```
-  5. Run migrations
+
+  5. Run migrations:
   ```
   python manage.py makemigrations
   python manage.py migrate
   ```
+
   6. Create SSL Certificates (Self-Signed for Local):
   ```
   mkdir certs && cd certs
   openssl req -x509 -newkey rsa:4096 -keyout server.key -out server.crt -days 365 -nodes
   cd ..
   ```
+
     Create `gunicorn.conf.py` file in project's root directory.
 		- Module configures SSL directly without using shell substitution
     Update content as per your requirements; ssl cert and key, port, ip etc.
+
   ```
    from search_app.ssl_utils import get_ssl_config
 
@@ -125,12 +129,13 @@ This project is a standardized introductory task for Software Engineers at Algor
 
   ```
 
-  7. Running the server
+  7. Running the server:
      Development server 
   ```
     python manage.py runserver 0.0.0.0:5000
   ```
-     Production server (Gunicorn + SSL + Multithreading)
+
+     Production server (Gunicorn + SSL + Multithreading):
   ```
     gunicorn string_search_server.wsgi:application -c gunicorn.conf.py
   ```
@@ -145,15 +150,16 @@ This project is a standardized introductory task for Software Engineers at Algor
    --keyfile=certs/server.key
    ```
 
-   8. Run tests
+   8. Run tests:
   ```
     pytest
   ```
+
    9. Run the client.py file on separate terminal, for testing queries between client and server
 
 
 ### Running the server as a Linux daemon/service
-   1. Create tthe service file
+   1. Create tthe service file:
    ```
     sudo nano /etc/systemd/system/string_search.service
    ``` 
@@ -189,9 +195,6 @@ This project is a standardized introductory task for Software Engineers at Algor
    sudo systemctl enable string_search.service
    sudo systemctl start string_search.service
    ```
-
-## Required Modules
-  - ```check requirements.txt file```
 
 ## Testing
    Run all tests
