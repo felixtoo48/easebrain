@@ -113,9 +113,10 @@ This project is a standardized introductory task for Software Engineers at Algor
   cd ..
   ```
 
-    Create `gunicorn.conf.py` file in project's root directory.
+  Create `gunicorn.conf.py` file in project's root directory.
 		- Module configures SSL directly without using shell substitution
-    Update content as per your requirements; ssl cert and key, port, ip etc.
+  Update content as per your requirements; ssl cert and key, port, ip etc.
+
 
   ```
    from search_app.ssl_utils import get_ssl_config
@@ -184,11 +185,12 @@ This project is a standardized introductory task for Software Engineers at Algor
   [Install]
   WantedBy=multi-user.target
   ```
+
 	NB:
 	* Update the Workingdirectory of the service file with your root project directory path i.e String_search_server
 	* Update ExecStart with your virtual environment's gunicorn project directory path
 	* Update Environment with your virtual environament path
-    Activate and start:
+   Activate and start:
 	
    ```
    sudo systemctl daemon-reload
