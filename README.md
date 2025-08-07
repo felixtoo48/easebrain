@@ -34,12 +34,14 @@ This project is a standardized introductory task for Software Engineers at Algor
       |    |   |__ views.py
       |    |   |__ search_utils.py
       |    |   |__ ssl_utils.py
+      |    |   |___threading_utils.py
       |    |   |__ tests/
       |    |        |__ __init__.py
       |    |        |__ test_views.py
       |    |        |__ test_ssl_utils.py
       |    |        |__ test_search_utils.py
       |    |        |__ test_client.py
+      |    |        |__ test_threading_utils.py
       |    |
       |    |__ string_search_server/
       |    |   |__ settings.py
@@ -87,7 +89,7 @@ This project is a standardized introductory task for Software Engineers at Algor
     source venv/bin/activate 
   ```
 
-  3. Install dependancies:
+  3. Install dependencies:
   ```
   pip install -r requirements.txt
   ```
@@ -160,7 +162,7 @@ This project is a standardized introductory task for Software Engineers at Algor
 
 
 ### Running the server as a Linux daemon/service
-   1. Create tthe service file:
+   1. Create the service file:
    ```
     sudo nano /etc/systemd/system/string_search.service
    ``` 
@@ -199,7 +201,7 @@ This project is a standardized introductory task for Software Engineers at Algor
    ```
 
 ## Testing
-   Run all tests
+   Run all tests:
   ```
    pytest
   ```
@@ -210,8 +212,19 @@ This project is a standardized introductory task for Software Engineers at Algor
 * Client-server TCP/SSL connection
 * Error handling and edge cases
 
+For testing while SSL is enabled, change 'SSL_ENABLED = True' in client.py.
+and runserver as follows:
+```
+gunicorn string_search_server.wsgi:application \
+   --workers 4 \
+   --threads 4 \
+   --bind 0.0.0.0:5000 \
+   --certfile=certs/server.crt \
+   --keyfile=certs/server.key
+``` 
+
 ## Bugs
-At this time, theres no known bugs.
+At this time, there's no known bugs.
 
 ## Author
 * Felix Too 
