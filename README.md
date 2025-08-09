@@ -1,7 +1,7 @@
 # String Search Server
 This project is a standardized introductory task for Software Engineers at Algorithmic Sciences, representing the second step of the interview process.
 
-#### Functionalities:
+#### Functionalities
 * Benchmarking multiple search algorithms across various file sizes. 
 * Comparing performance with REREAD_ON_QUERY=TRUE vs FALSE.
 * Secure SSL/TCP client-server communication.
@@ -18,7 +18,7 @@ This project is a standardized introductory task for Software Engineers at Algor
 
 ## Projects structure
 
-  ### String Search Server Structure:
+  ### String search server structure:
 
     String_search_server/
       |__ string_search_server/
@@ -94,7 +94,7 @@ This project is a standardized introductory task for Software Engineers at Algor
   pip install -r requirements.txt
   ```
 
-  4. Configure MySQL Database `sudo mysql -u root -p`:
+  4. Configure MySQL database `sudo mysql -u root -p`:
   ```
   CREATE DATABASE crm_db;
   CREATE USER 'crm_dbuser'@'localhost' IDENTIFIED BY 'Password@Here1234';
@@ -108,42 +108,50 @@ This project is a standardized introductory task for Software Engineers at Algor
   python manage.py migrate
   ```
 
-  6. Create SSL Certificates (Self-Signed for Local):
+  6. Create SSL certificate (self-signed for local):
+* Create certs directory in project's root directory and 'cd' into it.
+* Run the command below to create the 'server.crt' and 'server.key'.
+
   ```
   mkdir certs && cd certs
   openssl req -x509 -newkey rsa:4096 -keyout server.key -out server.crt -days 365 -nodes
   cd ..
   ```
 
-  Create `gunicorn.conf.py` file in project's root directory.
-		- Module configures SSL directly without using shell substitution
-  Update content as per your requirements; ssl cert and key, port, ip etc.
-
-
-  ```
-   from search_app.ssl_utils import get_ssl_config
-
-   ssl = get_ssl_config()
-
-   certfile = ssl["certfile"]
-   keyfile = ssl["keyfile"]
-   bind = "0.0.0.0:5000"
-   workers = 3
+* SSL helper for TCP connection, is already created in,
+   search_app's 'ssl_utils.py' and added/imported in settings.py.
+* Create `gunicorn.conf.py` in project's root directory, to configure
+  SSL directly without using shell substitution and add below content.
+* Update content as per your requirements; ssl cert and key, port, ip etc.
 
   ```
+  from search_app.ssl_utils import get_ssl_config
 
-  7. Running the server:
-     Development server 
+  # getting ssl_utils.py from search_app
+  ssl = get_ssl_config()
+
+  certfile = ssl["certfile"]
+  keyfile = ssl["keyfile"]
+  bind = "0.0.0.0:5000"
+  # workers = 3
+
+  ```
+
+  7. Running the server:i
+
+     Development server:
   ```
     python manage.py runserver 0.0.0.0:5000
   ```
 
+
      Production server (Gunicorn + SSL + Multithreading):
+
   ```
     gunicorn string_search_server.wsgi:application -c gunicorn.conf.py
   ```
 
-    or
+    Or for threading run the server as:
    ```
     gunicorn string_search_server.wsgi:application \
    --workers 4 \
@@ -162,12 +170,12 @@ This project is a standardized introductory task for Software Engineers at Algor
 
 
 ### Running the server as a Linux daemon/service
-   1. Create the service file:
+   1. Create the service file on terminal with virtual environment disabled:
    ```
     sudo nano /etc/systemd/system/string_search.service
    ``` 
 
-     Content:
+     Add the contents below:
   ```
   [Unit]
   Description=String Search Server Django Service
@@ -189,21 +197,34 @@ This project is a standardized introductory task for Software Engineers at Algor
   ```
 
 	NB:
-	* Update the Workingdirectory of the service file with your root project directory path i.e String_search_server
-	* Update ExecStart with your virtual environment's gunicorn project directory path
-	* Update Environment with your virtual environament path
-   Activate and start:
+	* Update the 'Workingdirectory' of the service file with your root project directory path i.e String_search_server
+	* Update 'ExecStart' with your virtual environment's gunicorn project directory path
+	* Update 'Environment' with your virtual environament's path
+
+  - User=<user>
+  - WorkingDirectory=</path/to/string_search_server>
+  - ExecStart=</path/to/String_Search_Server/venv/bin/gunicorn string_search_server.wsgi:application>
+  - Environment="<PATH=/path/to/String_Search_Server/venv/bin>
+
+
+   Activate and start on virtual environment:
 	
    ```
    sudo systemctl daemon-reload
    sudo systemctl enable string_search.service
    sudo systemctl start string_search.service
    ```
+   To check the status of the server, run the command: `sudo systemctl status string_search.service` on terminal.
+   To stop the server from running, run the command: `sudo systemctl stop string_search.service` on terminal.
 
 ## Testing
    Run all tests:
   ```
    pytest
+  ```
+  or
+  ```
+  pytest --cov=search_app --cov-report=term-missing
   ```
   Tests include:
 * Views and HTTP responses.
@@ -212,7 +233,7 @@ This project is a standardized introductory task for Software Engineers at Algor
 * Client-server TCP/SSL connection
 * Error handling and edge cases
 
-For testing while SSL is enabled, change 'SSL_ENABLED = True' in client.py.
+For testing while SSL is enabled, change 'SSL_ENABLED = True' in 'client/client.py'.
 and runserver as follows:
 ```
 gunicorn string_search_server.wsgi:application \
@@ -224,7 +245,7 @@ gunicorn string_search_server.wsgi:application \
 ``` 
 
 ## Bugs
-At this time, there's no known bugs.
+* There are no bugs.
 
 ## Author
 * Felix Too 
