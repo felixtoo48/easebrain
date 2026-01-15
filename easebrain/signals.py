@@ -10,5 +10,11 @@ def create_user_profile(sender, instance, created, **kwargs):
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def save_user_profile(sender, instance, **kwargs):
+    """
+    Signal receiver function to save the userprofile instance after it's associated
+    user instance is saved. This is needed to ensure that the userprofile instance is
+    updated correctly when the user instance is updated.
+    """
+
     instance.userprofile.save()
 
